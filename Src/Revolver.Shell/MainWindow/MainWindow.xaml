@@ -1,0 +1,396 @@
+﻿<metro:MetroWindow x:Class="Revolver.Shell.MainWindow.MainWindow"
+                   x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Revolver.Shell.AvalonDock"
+        xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+        xmlns:TaskbarItemOverlay="clr-namespace:Magnum.Controls.TaskbarItemOverlay;assembly=Magnum.Controls"
+        xmlns:Converters="clr-namespace:Magnum.Controls.Converters;assembly=Magnum.Controls"
+        xmlns:SearchBox="clr-namespace:Magnum.Controls.SearchBox;assembly=Magnum.Controls"
+        xmlns:themes="clr-namespace:Xceed.Wpf.AvalonDock.Themes;assembly=AvalonDock.Themes.VS2012"
+        xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+        xmlns:Views="clr-namespace:Revolver.Shell.Views"
+        Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+        Icon="{Binding Icon}"
+        ShowTitleBar="False"
+        TitleForeground="#FF717171" 
+        TitleCaps="False"
+        WindowTransitionsEnabled="True"
+        ResizeMode="CanResizeWithGrip"
+        Closing="Window_Closing"
+        GlowBrush="{Binding Path=StatusBar.BorderColor}"
+        MouseDown="MainWindow_MouseDown"
+        Activated="MainWindow_Activated"
+        Deactivated="MainWindow_Deactivated"
+        Topmost="False">
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary x:Name="ThemeDictionary">
+          <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+          </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <ResourceDictionary Source="pack://application:,,,/Magnum.IconLibrary;component/BitmapImages.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Magnum.Controls;component/Themes/Styles/Brushes.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+      <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+      <Converters:InverseNullObjectToVisibilityConverter x:Key="nullToCollapsedConverter" />
+      <Converters:BoolToInsertModeConverter x:Key="booleanToInsertModeConverter" />
+      <Converters:BoolToProgressStateConverter x:Key="booleanToProgressStateConverter" />
+      <Converters:ActiveToolConverter x:Key="activeToolConverter" />
+      <Converters:StringNullOrEmptyToVisibilityConverter x:Key="stringNullOrEmptyToVisibilityConverter" />
+      <Converters:IntNullOr0ToVisibilityConverter x:Key="intNullOr0ToVisibilityConverter" />
+
+      <DataTemplate x:Key="OverlayIcon">
+        <Grid Width="16" Height="16">
+          <Ellipse Fill="Red" 
+                   Stroke="White" 
+                   StrokeThickness=".5" />
+          <TextBlock Text="{Binding}" 
+                     TextAlignment="Center" 
+                     Foreground="White" 
+                     FontWeight="Bold" 
+                     Height="16" 
+                     VerticalAlignment="Center" 
+                     FontSize="10"/>
+        </Grid>
+      </DataTemplate>
+
+      <Storyboard x:Key="FadeIn">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="{x:Null}">
+          <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+          <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="{x:Null}">
+          <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}"/>
+        </ObjectAnimationUsingKeyFrames>
+      </Storyboard>
+
+      <Storyboard x:Key="FadeOut">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="{x:Null}">
+          <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+          <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+        </DoubleAnimationUsingKeyFrames>
+        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="{x:Null}">
+          <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="{x:Static Visibility.Visible}"/>
+          <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Collapsed}"/>
+        </ObjectAnimationUsingKeyFrames>
+      </Storyboard>
+    </ResourceDictionary>
+  </Window.Resources>
+
+  <Window.TaskbarItemInfo>
+    <TaskbarItemInfo Description="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                     ProgressValue="{Binding Path=ProgressBar.ProgressValueTaskBarItemInfo, UpdateSourceTrigger=PropertyChanged}"
+                     ProgressState="{Binding Path=ProgressBar.ShowProgressBar, Converter={StaticResource ResourceKey=booleanToProgressStateConverter}, UpdateSourceTrigger=PropertyChanged}"
+                     TaskbarItemOverlay:TaskbarItemOverlay.Content="{Binding Path=SaveManager.NumberOfObjectsToSave}"
+                     TaskbarItemOverlay:TaskbarItemOverlay.Template="{StaticResource OverlayIcon}" />
+  </Window.TaskbarItemInfo>
+
+  <metro:MetroWindow.WindowCommands>
+    <metro:WindowCommands>
+      <Button Click="ErrorList_Click" Foreground="Transparent">
+        <StackPanel Orientation="Horizontal">
+          <Image Height="16" Width="16">
+            <Image.Style>
+              <Style TargetType="{x:Type Image}">
+                <Setter Property="Source" Value="{StaticResource Error_16x16}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding NotifyError}" Value="True">
+                    <Setter Property="Source" Value="{StaticResource ErrorColor_16x16}" />
+                    <Setter Property="Opacity" Value="1" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Image.Style>
+          </Image>
+          <TextBlock Margin="4,0,0,0" 
+                     Text="{Binding NumberOfErrors}" Foreground="{DynamicResource TextBrush}" 
+                     Visibility="{Binding Path=NumberOfErrors, Converter={StaticResource ResourceKey=intNullOr0ToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+      </Button>
+      <Button x:Name="_ToggleButtonSaveManager" Click="SaveManager_Click" Foreground="Transparent">
+        <Button.Style>
+          <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="0,0,3,0" />
+            <Setter Property="Padding" Value="5,0,5,0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Path=SaveManager.NotifySaveIsPossible, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                <Setter Property="Background" Value="#FF4e8f31" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+        <StackPanel Orientation="Horizontal">
+          <Image Height="16" Width="16">
+            <Image.Style>
+              <Style TargetType="{x:Type Image}">
+                <Setter Property="Source" Value="{StaticResource SaveGrey_32x32}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=SaveManager.NotifySaveIsPossible, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                    <Setter Property="Source" Value="{StaticResource Save_32x32}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Image.Style>
+          </Image>
+          <TextBlock Margin="4,0,0,0"
+                     Text="{Binding Path=SaveManager.NumberOfObjectsToSave, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource TextBrush}"
+                     Visibility="{Binding Path=SaveManager.NumberOfObjectsToSave, Converter={StaticResource ResourceKey=intNullOr0ToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+      </Button>
+      <SearchBox:SearchBox x:Name="_SearchBox_QuickLaunch"
+                           Height="24" Width="170"
+                           Search="_SearchBox_QuickLaunch_Search"
+                           PreviewKeyDown="_SearchBox_QuickLaunch_PreviewKeyDown"
+                           LabelText="Quick Launch (Ctrl+Q)"
+                           SearchMode="Instant" />
+    </metro:WindowCommands>
+  </metro:MetroWindow.WindowCommands>
+
+  <i:Interaction.Behaviors>
+    <Behaviours:BorderlessWindowBehavior ResizeWithGrip="True" AllowsTransparency="False" />
+    <Behaviours:GlowWindowBehavior />
+  </i:Interaction.Behaviors>
+
+  <Grid>
+    <!--Main Content-->
+    <Border>
+      <DockPanel Background="{DynamicResource MainWindowBackgroundBrush}">
+
+        <Popup x:Name="_PopupSaveManager"
+             Width="300"
+             Height="300"
+             StaysOpen="False"
+             PlacementTarget="{Binding ElementName=_SearchBox_QuickLaunch}"
+               HorizontalOffset="-299"
+               AllowsTransparency="True"
+               PopupAnimation="Slide">
+          <Views:SaveManagerView DataContext="{Binding SaveManager}" />
+        </Popup>
+
+        <Popup x:Name="_PopupToolsLibrary"
+             Width="300"
+             Height="500"
+               StaysOpen="False"
+               MouseDown="_PopupToolsLibrary_MouseDown"
+               IsOpen="{Binding IsToolsLibraryOpened, Mode=TwoWay}"
+               PlacementTarget="{Binding ElementName=placementTargetForPopupToolsLibrary}"
+               Opened="_PopupToolsLibrary_Opened"
+               AllowsTransparency="True"
+               PopupAnimation="Slide">
+          <Views:ToolsLibraryView x:Name="_ToolsLibraryView" DataContext="{Binding ToolsLibrary}" />
+        </Popup>
+
+        <Popup x:Name="_PopupQuickLaunch"
+             Width="400"
+             Height="500"
+               StaysOpen="False"
+               MouseDown="_PopupQuickLaunch_MouseDown"
+               IsOpen="{Binding IsQuickLaunchOpened, Mode=TwoWay}"
+               PlacementTarget="{Binding ElementName=_SearchBox_QuickLaunch}"
+               HorizontalOffset="-229"
+               AllowsTransparency="True"
+               PopupAnimation="Slide">
+          <Views:QuickLaunchView x:Name="_QuickLaunchView" DataContext="{Binding QuickLaunch}" />
+        </Popup>
+
+        <!--Icon, Menu and Title-->
+        <DockPanel x:Name="_mainTitle" DockPanel.Dock="Top" MouseUp="_mainTitle_MouseUp">
+          <Image DockPanel.Dock="Left" Source="../Logo.ico" Width="18" Height="20" Margin="3,1,0,0"/>
+          <Menu DockPanel.Dock="Left" IsMainMenu="True" x:Name="mainMenu" VerticalAlignment="Top" ItemsSource="{Binding Path=Menus, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock DockPanel.Dock="Left" Margin="-180,0,0,0" x:Name="placementTargetForPopupToolsLibrary" Visibility="Hidden"/>
+          <!-- Only used as a PlacementTarget for the PopupToolsLibrary -->
+          <TextBlock Margin="0,0,178,0" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource DisabledTextBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="{DynamicResource HeaderFontFamily}" />
+        </DockPanel>
+
+        <!-- Ribbon -->
+        <ContentControl x:Name="_Ribbon" Content="{Binding Ribbon}" DockPanel.Dock="Top" />
+
+        <!--Progress bar-->
+        <ProgressBar x:Name="ProgressBar" DockPanel.Dock="Top" Margin="0,-3,0,0" Height="2" Width="Auto"
+                     Visibility="{Binding Path=ProgressBar.ShowProgressBar, Converter={StaticResource ResourceKey=booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Maximum="{Binding Path=ProgressBar.ProgressMaximum, UpdateSourceTrigger=PropertyChanged}"
+                     Value="{Binding Path=ProgressBar.ProgressValue, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!--Status bar-->
+        <StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom" Background="{Binding Path=StatusBar.Background}">
+          <StatusBar.ItemsPanel>
+            <ItemsPanelTemplate>
+              <DockPanel />
+            </ItemsPanelTemplate>
+          </StatusBar.ItemsPanel>
+          <!--Status message-->
+          <StatusBarItem DockPanel.Dock="Left">
+            <TextBlock Foreground="{Binding Path=StatusBar.Foreground, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Path=StatusBar.Text, UpdateSourceTrigger=PropertyChanged}" />
+          </StatusBarItem>
+          <!-- Mouse Position -->
+          <StatusBarItem Margin="4,0,0,0" DockPanel.Dock="Left" Visibility="{Binding Path=StatusBar.MousePosition, Converter={StaticResource ResourceKey=stringNullOrEmptyToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+            <TextBlock Foreground="{Binding Path=StatusBar.Foreground, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Path=StatusBar.MousePosition, UpdateSourceTrigger=PropertyChanged}" />
+          </StatusBarItem>
+          <!-- Current Layer -->
+          <StatusBarItem Margin="4,0,0,0" DockPanel.Dock="Left">
+            <TextBlock Foreground="{Binding Path=StatusBar.Foreground, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Path=StatusBar.CurrentLayerName, UpdateSourceTrigger=PropertyChanged}" />
+          </StatusBarItem>
+          <!--Engine Image-->
+          <StatusBarItem Margin="0,0,7,0" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Visibility="{Binding Path=StatusBar.EngineImage, Converter={StaticResource ResourceKey=nullToCollapsedConverter}, UpdateSourceTrigger=PropertyChanged}">
+            <Image Source="{Binding Path=StatusBar.EngineImage, UpdateSourceTrigger=PropertyChanged}" Width="16" Height="16" />
+          </StatusBarItem>
+        </StatusBar>
+
+        <!--Docking Manager-->
+        <avalonDock:DockingManager x:Name="dockManager" AnchorablesSource="{Binding Tools}"
+                                       DocumentsSource="{Binding Documents}"
+                                       ActiveContent="{Binding ActiveTool, Mode=TwoWay, Converter={StaticResource activeToolConverter}}" 
+                                       ActiveContentChanged="dockManager_ActiveContentChanged"
+                                      AllowMixedOrientation="True">
+          <avalonDock:DockingManager.DocumentHeaderTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding IconSource}" Margin="0,0,4,0" Height="16" Width="16"/>
+                <TextBlock Text="{Binding Title, Mode=TwoWay}" TextTrimming="CharacterEllipsis"/>
+              </StackPanel>
+            </DataTemplate>
+          </avalonDock:DockingManager.DocumentHeaderTemplate>
+          <avalonDock:DockingManager.DocumentTitleTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding IconSource}" Margin="0,0,4,0" Height="16" Width="16"/>
+                <TextBlock Text="{Binding Title, Mode=TwoWay}" TextTrimming="CharacterEllipsis"/>
+              </StackPanel>
+            </DataTemplate>
+          </avalonDock:DockingManager.DocumentTitleTemplate>
+
+          <avalonDock:DockingManager.LayoutItemTemplateSelector>
+            <local:AvalonDockPanesTemplateSelector>
+              <local:AvalonDockPanesTemplateSelector.ToolViewTemplate>
+                <DataTemplate>
+                  <ContentPresenter Content="{Binding View, UpdateSourceTrigger=PropertyChanged}" />
+                </DataTemplate>
+              </local:AvalonDockPanesTemplateSelector.ToolViewTemplate>
+              <local:AvalonDockPanesTemplateSelector.DocumentViewTemplate>
+                <DataTemplate>
+                  <ContentPresenter Content="{Binding View, UpdateSourceTrigger=PropertyChanged}" />
+                </DataTemplate>
+              </local:AvalonDockPanesTemplateSelector.DocumentViewTemplate>
+            </local:AvalonDockPanesTemplateSelector>
+          </avalonDock:DockingManager.LayoutItemTemplateSelector>
+
+          <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+            <local:AvalonDockPanesStyleSelector>
+              <local:AvalonDockPanesStyleSelector.ToolStyle>
+                <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
+                  <Setter Property="Title" Value="{Binding Model.Title, Mode=TwoWay}" />
+                  <Setter Property="IconSource" Value="{Binding Model.IconSource}" />
+                  <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                  <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                  <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                  <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
+                  <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                  <Setter Property="HideCommand" Value="{Binding Model.HideCommand}" />
+                </Style>
+              </local:AvalonDockPanesStyleSelector.ToolStyle>
+              <local:AvalonDockPanesStyleSelector.DocumentStyle>
+                <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                  <Setter Property="Title" Value="{Binding Model.Title, Mode=TwoWay}" />
+                  <Setter Property="ToolTip" Value="{Binding Model.Tooltip}" />
+                  <Setter Property="IconSource" Value="{Binding Model.IconSource}" />
+                  <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                  <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                </Style>
+              </local:AvalonDockPanesStyleSelector.DocumentStyle>
+            </local:AvalonDockPanesStyleSelector>
+          </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+          <avalonDock:DockingManager.LayoutUpdateStrategy>
+            <local:AvalonDockLayoutInitializer />
+          </avalonDock:DockingManager.LayoutUpdateStrategy>
+
+          <avalonDock:LayoutRoot>
+            <avalonDock:LayoutPanel Orientation="Vertical">
+              <avalonDock:LayoutPanel Orientation="Horizontal">
+                <avalonDock:LayoutDocumentPane  />
+              </avalonDock:LayoutPanel>
+            </avalonDock:LayoutPanel>
+          </avalonDock:LayoutRoot>
+        </avalonDock:DockingManager>
+      </DockPanel>
+    </Border>
+
+    <!--Busy panel-->
+    <Grid>
+      <Grid.Style>
+        <Style TargetType="Grid">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsBusy}" Value="true">
+              <DataTrigger.EnterActions>
+                <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+              </DataTrigger.EnterActions>
+              <DataTrigger.ExitActions>
+                <BeginStoryboard Storyboard="{StaticResource FadeOut}"/>
+              </DataTrigger.ExitActions>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Grid.Style>
+      <Border HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="DarkGray"
+                Opacity=".6" />
+      <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="White"
+                Padding="20"
+                BorderBrush="Black"
+                BorderThickness="1">
+        <StackPanel Orientation="Horizontal">
+          <Controls:ProgressRing Foreground="Black"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               IsActive="True"
+                               Margin="0,0,5,0" />
+          <TextBlock Foreground="Black"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="{Binding StatusBar.Text}"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- MessageBox showing-->
+    <Grid>
+      <Grid.Style>
+        <Style TargetType="Grid">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMessageBoxShowing}" Value="true">
+              <DataTrigger.EnterActions>
+                <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+              </DataTrigger.EnterActions>
+              <DataTrigger.ExitActions>
+                <BeginStoryboard Storyboard="{StaticResource FadeOut}"/>
+              </DataTrigger.ExitActions>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Grid.Style>
+      <Border HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="DarkGray"
+                Opacity=".6" />
+    </Grid>
+  </Grid>
+</metro:MetroWindow>

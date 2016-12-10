@@ -1,0 +1,85 @@
+﻿<ListBox x:Class="Revolver.Shell.Views.ToolsLibraryListBox"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:SearchBox="clr-namespace:Magnum.Controls.SearchBox;assembly=Magnum.Controls"
+         mc:Ignorable="d" 
+         d:DesignHeight="300" d:DesignWidth="300"
+         IsSynchronizedWithCurrentItem="True"
+         HorizontalContentAlignment="Stretch"
+         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         VirtualizingStackPanel.IsVirtualizing="False"
+         Focusable="False"
+         IsTabStop="False"
+         Background="{DynamicResource MainWindowInnerBackgroundBrush}"
+         BorderThickness="0">
+  <ListBox.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Magnum.Controls;component/Themes/Styles/Brushes.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <Style x:Key="ModelStyle" TargetType="{x:Type Control}">
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate>
+              <Button HorizontalAlignment="Stretch"
+					            HorizontalContentAlignment="Stretch"
+                      Padding="3"
+                      Style="{DynamicResource TransparentButton}"
+                      ToolTip="{Binding Name}"
+                      IsHitTestVisible="True"
+                      Command="{Binding OpenCommand}">
+                <DockPanel>
+                  <Image Source="{Binding IconSource}" 
+							           DockPanel.Dock="Left" 
+							           Width="16" Height="16"
+                         Focusable="False"/>
+                  <TextBlock Text="{Binding Name}"
+							               DockPanel.Dock="Left" 
+                             Margin="2,0,0,0"
+                             Focusable="False"/>
+                  <TextBlock DockPanel.Dock="Right"
+							               Text="{Binding ShortcutText}" 
+							               Foreground="{DynamicResource DisabledTextBrush}"
+                             Focusable="False"/>
+                  <TextBlock Text="{Binding Description}"
+                             Margin="4,0,0,0"
+                             Focusable="False"
+                        Foreground="{DynamicResource DisabledTextBrush}"/>
+                </DockPanel>
+              </Button>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </ListBox.Resources>
+
+  <ListBox.ItemTemplate>
+    <DataTemplate>
+      <Control Style="{StaticResource ModelStyle}"/>
+    </DataTemplate>
+  </ListBox.ItemTemplate>
+
+  <ListBox.GroupStyle>
+    <GroupStyle>
+      <GroupStyle.HeaderTemplate>
+        <DataTemplate>
+          <DockPanel Margin="10,5"
+                      Focusable="False">
+            <TextBlock Text="{Binding Name}" 
+    								    Foreground="{DynamicResource AccentHighlightColorBrush}"
+                        DockPanel.Dock="Left"
+                        Focusable="False"/>
+            <Rectangle Height="1" 
+                        Margin="3,0,0,0"
+                        Fill="{DynamicResource DisabledTextBrush}"
+                        Focusable="False"/>
+          </DockPanel>
+        </DataTemplate>
+      </GroupStyle.HeaderTemplate>
+    </GroupStyle>
+  </ListBox.GroupStyle>
+</ListBox>

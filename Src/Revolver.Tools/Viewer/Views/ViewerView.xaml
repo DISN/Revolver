@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Revolver.Tools.Viewer.Views.ViewerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:Revolver.Tools.Viewer.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             SizeChanged="UserControl_SizeChanged"
+             DataContextChanged="UserControl_DataContextChanged">
+  <UserControl.Resources>
+    <!--<DataTemplate x:Key="Viewer">
+      <StackPanel Width="{Binding AspectRatioWidth}" Height="Auto">
+        <ContentControl Content="{Binding Viewer}" SnapsToDevicePixels="True"/>
+      </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="NotLoaded">
+      <ContentControl Content="{x:Null}" SnapsToDevicePixels="True"/>
+    </DataTemplate>
+    <Style x:Key="mainContentControlStyle"
+           TargetType="{x:Type ContentControl}">
+      <Setter Property="ContentTemplate" Value="{StaticResource ResourceKey=NotLoaded}" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=IsViewerLoaded}" Value="True">
+          <Setter Property="ContentTemplate" Value="{StaticResource ResourceKey=Viewer}" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>-->
+    <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+  </UserControl.Resources>
+  <Grid>
+    <Rectangle Fill="{DynamicResource InverseTextBrush}" />
+    <Rectangle Opacity="1" Fill="{DynamicResource CheckeredPattern}"/>
+    <Rectangle Margin="0,0,0,0" Fill="{DynamicResource DarkGrayOverlay}"/>
+
+    <Viewbox Stretch="Fill" Visibility="{Binding IsViewerLoaded, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+      <StackPanel Orientation="Horizontal" Width="Auto" Height="Auto">
+        <Rectangle Width="{Binding LetterBoxWidth}" />
+        <StackPanel x:Name="_viewerStackPanel" Width="Auto" Height="Auto">
+          <Rectangle Height="{Binding LetterBoxHeight}" />
+          <ContentControl Content="{Binding Viewer}" SnapsToDevicePixels="True"/>
+          <Rectangle Height="{Binding LetterBoxHeight}" />
+        </StackPanel>
+        <Rectangle Width="{Binding LetterBoxWidth}" />
+      </StackPanel>
+    </Viewbox>
+  </Grid>
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Revolver.Shell.Views.QuickLaunchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:SearchBox="clr-namespace:Magnum.Controls.SearchBox;assembly=Magnum.Controls"
+             xmlns:local="clr-namespace:Revolver.Shell.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContextChanged="QuickLaunchView_DataContextChanged">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Magnum.Controls;component/Themes/Styles/Brushes.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
+
+  <Border BorderBrush="{DynamicResource ToolbarBorderBrush}"
+          BorderThickness="1"
+          Margin="1">
+    <DockPanel x:Name="LayoutRoot"
+               Background="{DynamicResource MainWindowInnerBackgroundBrush}"
+               Focusable="False">
+
+      <local:QuickLaunchListBox x:Name="_ListBox" ItemsSource="{Binding SearchableItemsViewSource, NotifyOnSourceUpdated=True}"/>
+    </DockPanel>
+  </Border>
+</UserControl>

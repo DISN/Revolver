@@ -1,0 +1,122 @@
+﻿<ResourceDictionary x:Class="Revolver.Tools.EntityCreator.Views.EntityCreatorItems"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:Magnum.Controls.Converters;assembly=Magnum.Controls"
+             xmlns:models="clr-namespace:Revolver.Tools.EntityCreator.Models">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="pack://application:,,,/Magnum.IconLibrary;component/BitmapImages.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/Magnum.Controls;component/Themes/Styles/Brushes.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <BooleanToVisibilityConverter x:Key="boolToVisible"/>
+  <converters:NullObjectToVisibilityConverter x:Key="nullToVisible"/>
+  <converters:InverseNullObjectToVisibilityConverter x:Key="nullToCollapsed"/>
+
+  <Style TargetType="{x:Type ListBox}">
+    <Setter Property="SnapsToDevicePixels" Value="true" />
+    <Setter Property="Background" Value="{DynamicResource MainWindowInnerBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="#FF000000" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ListBox}">
+          <Grid>
+            <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{DynamicResource MainWindowInnerBackgroundBrush}" />
+            <ScrollViewer Margin="1" Style="{DynamicResource NuclearScrollViewer}" Focusable="false" Background="{x:Null}">
+              <StackPanel Margin="1,1,1,1" IsItemsHost="true" />
+            </ScrollViewer>
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+              <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" TargetName="Border" />
+              <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" TargetName="Border" />
+            </Trigger>
+            <Trigger Property="IsGrouping" Value="true">
+              <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  
+  <HierarchicalDataTemplate DataType="{x:Type models:EntityStateItem}">
+    <Border BorderBrush="{DynamicResource ToolbarBorderBrush}"
+            BorderThickness="2"
+            CornerRadius="2"
+            MinWidth="100">
+      <DockPanel TextElement.Foreground="{DynamicResource TextBrush}"
+               Background="{DynamicResource MainWindowBackgroundBrush}">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
+          <CheckBox Margin="0,0,2,0" />
+          <Image Width="16" Height="16" Source="{StaticResource World_16x16}"/>
+          <TextBlock Text="{Binding StateName}"/>
+        </StackPanel>
+        <Expander DockPanel.Dock="Bottom" Margin="0,0,5,0" Header="Actions">
+          <ListBox ItemsSource="{Binding Actions}" />
+        </Expander>
+        <Expander DockPanel.Dock="Bottom" Header="Components">
+          <ListBox ItemsSource="{Binding Components}" />
+        </Expander>
+      </DockPanel>
+    </Border>
+  </HierarchicalDataTemplate>
+  
+  <HierarchicalDataTemplate DataType="{x:Type models:EntityComponentItem}">
+    <Border BorderBrush="{DynamicResource MainWindowInnerBackgroundBrush}"
+            BorderThickness="0,1,0,1">
+      <DockPanel TextElement.Foreground="{DynamicResource TextBrush}"
+               Background="{DynamicResource MainWindowBackgroundBrush}"
+               Margin="5">
+        <Image Width="16" Height="16" SnapsToDevicePixels="True">
+          <Image.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="{StaticResource World_16x16}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ComponentType}" Value="Skeleton">
+                  <Setter Property="Source" Value="{StaticResource World_16x16}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ComponentType}" Value="Visual">
+                  <Setter Property="Source" Value="{StaticResource World_16x16}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Image.Style>
+        </Image>
+        <TextBlock Text="{Binding ComponentName}" />
+      </DockPanel>
+    </Border>
+  </HierarchicalDataTemplate>
+
+  <HierarchicalDataTemplate DataType="{x:Type models:EntityActionItem}">
+    <Border BorderBrush="{DynamicResource MainWindowInnerBackgroundBrush}"
+            BorderThickness="0,1,0,1">
+      <DockPanel TextElement.Foreground="{DynamicResource TextBrush}"
+               Background="{DynamicResource MainWindowBackgroundBrush}"
+               Margin="5">
+        <Image Width="16" Height="16" SnapsToDevicePixels="True">
+          <Image.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="{StaticResource World_16x16}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ActionType}" Value="Age">
+                  <Setter Property="Source" Value="{StaticResource World_16x16}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ActionType}" Value="HP">
+                  <Setter Property="Source" Value="{StaticResource World_16x16}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Image.Style>
+        </Image>
+        <TextBlock Text="{Binding ActionName}" />
+      </DockPanel>
+    </Border>
+  </HierarchicalDataTemplate>
+</ResourceDictionary>

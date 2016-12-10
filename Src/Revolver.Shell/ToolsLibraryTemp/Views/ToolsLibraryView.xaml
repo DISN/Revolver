@@ -1,0 +1,233 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="Revolver.Shell.ToolsLibrary.Views.ToolsLibraryView"
+	x:Name="UserControl" d:DesignWidth="602" d:DesignHeight="332.84">
+
+  <UserControl.Resources>
+
+    <Style x:Key="ImageCheckBoxStyle" TargetType="{x:Type CheckBox}">
+      <Setter Property="SnapsToDevicePixels" Value="true"/>
+      <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type CheckBox}">
+            <Grid>
+              <Border 
+                    			x:Name="BorderBackground"
+                    			Background="{DynamicResource MenuBackgroundBrush}"
+                    			Opacity="0"
+                    			CornerRadius="0"/>
+              <ContentPresenter 
+                                x:Name="_Content"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Opacity="0.3" />
+            </Grid>
+
+            <!-- This uses Visibility to hide and show the CheckMark on IsChecked -->
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="true">
+                <Setter Property="Opacity" Value="1" TargetName="_Content"/>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Opacity" Value="1.0" TargetName="BorderBackground"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="PinnableModelStyle" TargetType="{x:Type Control}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate>
+            <Button 
+                            HorizontalAlignment="Stretch"
+					        HorizontalContentAlignment="Stretch"
+                            Padding="3"
+					        Background="Transparent"
+					        BorderBrush="{x:Null}"
+                            ToolTip="{Binding Model.Description}"
+                            IsHitTestVisible="True">
+              <DockPanel>
+
+                <CheckBox 
+                                    x:Name="_PinCheckBox"
+                                    Style="{StaticResource ImageCheckBoxStyle}"
+                                    VerticalAlignment="Stretch"
+						            DockPanel.Dock="Left"
+						            IsChecked="{Binding Model.IsPinned, FallbackValue=True}"
+						            Width="18"
+                                    Margin="-2,-2,0,-2"
+                                    Visibility="Hidden"
+                                    ToolTip="Pin this tool to show it on the quick access toolbar."
+                                    Focusable="False"
+                                    IsTabStop="False">
+                  <!--<Rectangle 
+                                        Fill="Black" 
+                                        Width="12" Height="12" 
+                                        Focusable="False"/>-->
+                </CheckBox>
+
+                <Image Source="{Binding IconSource}" 
+							        DockPanel.Dock="Left" 
+							        Width="16" Height="16"
+                                    Focusable="False"/>
+                <TextBlock
+							        DockPanel.Dock="Right"
+							        Text="{Binding ShortcutText}" 
+							        Foreground="{DynamicResource DisabledTextBrush}"
+                                    Focusable="False"/>
+                <TextBlock 
+							        Text="{Binding Name}" 
+							        Margin="2,0,0,0"
+                      Focusable="False"/>
+              </DockPanel>
+            </Button>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="_PinCheckBox" Property="Visibility" Value="Visible" />
+              </Trigger>
+              <Trigger Property="IsChecked" SourceName="_PinCheckBox" Value="True">
+                <Setter TargetName="_PinCheckBox" Property="Visibility" Value="Visible" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+
+
+    </Style>
+  </UserControl.Resources>
+
+  <Border
+        BorderBrush="{DynamicResource ToolbarBorderBrush}"
+        BorderThickness="1">
+    <DockPanel 
+            x:Name="LayoutRoot"
+            Background="{DynamicResource MainWindowInnerBackgroundBrush}"
+            Focusable="False">
+      <Viewbox>
+        <Grid Name="Grid1"/>
+      </Viewbox>
+      <ListBox x:Name="_ListBox"
+    		        ItemsSource="{Binding ToolsViewSource}"
+                IsSynchronizedWithCurrentItem="True"
+                HorizontalContentAlignment="Stretch"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                VirtualizingStackPanel.IsVirtualizing="False"
+                Focusable="False"
+                IsTabStop="False">
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel ItemWidth="270"/>
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+
+        <ListBox.GroupStyle>
+          <GroupStyle>
+            <GroupStyle.HeaderTemplate>
+              <DataTemplate>
+                <DockPanel 
+                                    Margin="10,5"
+                                    Focusable="False">
+                  <TextBlock 
+    								    Text="{Binding Name}" 
+    								    Foreground="{DynamicResource DisabledTextBrush}"
+                                        DockPanel.Dock="Left"
+                                        Focusable="False"/>
+                  <Rectangle 
+                                        Height="1" 
+                                        Margin="3,0,0,0"
+                                        Fill="{DynamicResource DisabledTextBrush}"
+                                        Focusable="False"/>
+                </DockPanel>
+              </DataTemplate>
+            </GroupStyle.HeaderTemplate>
+          </GroupStyle>
+        </ListBox.GroupStyle>
+
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Control Style="{StaticResource PinnableModelStyle}"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+
+        <ListBox.ItemContainerStyle>
+          <Style 
+                        d:IsControlPart="True"
+                        TargetType="{x:Type ListBoxItem}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0,0,30,0" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Foreground" Value="{DynamicResource ListItemDefaultTextBrush}" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                  <Grid SnapsToDevicePixels="true" Margin="0">
+                    <Rectangle x:Name="Background" IsHitTestVisible="True" Opacity="0.25" 
+                                            Fill="{DynamicResource MainWindowInnerBackgroundBrush}" RadiusX="1" RadiusY="1"/>
+                    <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" 
+                                            Fill="{DynamicResource ControlHighlightedColorBrush}" RadiusX="1" RadiusY="1"/>
+                    <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" 
+                                            Fill="{DynamicResource AccentHighlightColorBrush}" RadiusX="1" RadiusY="1"/>
+                    <ContentPresenter HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            x:Name="contentPresenter" />
+                    <Rectangle x:Name="FocusVisualElement" Stroke="{DynamicResource ControlHighlightedColorBrush}" 
+                                            StrokeThickness="1" RadiusX="1" RadiusY="1" Opacity="0"/>
+                  </Grid>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                      <Setter Property="Opacity" TargetName="FocusVisualElement" Value="1"/>
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="true">
+                      <Setter Property="Opacity" TargetName="SelectedRectangle" Value="1"/>
+                    </Trigger>
+                    <MultiTrigger>
+                      <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="Selector.IsSelected" Value="False" />
+                      </MultiTrigger.Conditions>
+                      <Setter Property="Opacity" TargetName="HoverRectangle" Value="1"/>
+
+                    </MultiTrigger>
+                    <MultiTrigger>
+                      <MultiTrigger.Conditions>
+                        <Condition Property="Selector.IsSelected" Value="True" />
+                        <Condition Property="IsMouseOver" Value="True" />
+                      </MultiTrigger.Conditions>
+
+                    </MultiTrigger>
+                    <Trigger Property="IsEnabled" Value="false">
+                      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}" />
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Style.Triggers>
+              <Trigger Property="Selector.IsSelected" Value="True">
+                <Setter Property="Foreground">
+                  <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource BlackBrush}" />
+                  </Setter.Value>
+                </Setter>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </ListBox.ItemContainerStyle>
+      </ListBox>
+
+    </DockPanel>
+  </Border>
+</UserControl>

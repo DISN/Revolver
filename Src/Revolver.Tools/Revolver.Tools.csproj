@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BEC5C42E-12AD-47CF-BBF9-3782672CBDF6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Revolver.Tools</RootNamespace>
+    <AssemblyName>Revolver.Tools</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Editor\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="357.Main, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Editor\Debug\357.Main.dll</HintPath>
+    </Reference>
+    <Reference Include="357.System, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Editor\Debug\357.System.dll</HintPath>
+    </Reference>
+    <Reference Include="44.System, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Editor\Debug\44.System.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.WPF.Controls, Version=7.5.0.9, Culture=neutral, PublicKeyToken=65042117d0a83cbc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Extern\DotNetBarWPF\DevComponents.WPF.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\..\Libs\Extern\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=0.11.0.38, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Extern\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Extern\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>..\..\Libs\Extern\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Extern\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\MonoGameEditor\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\Libs\Extern\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Extern\RibbonControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.RawInput">
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.RawInput.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\357\Libs\Extern\SharpDX_2.5\SharpDX.XInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BehaviorTreeEditor\BehaviorTreeEditorModule.cs" />
+    <Compile Include="BehaviorTreeEditor\BehaviorTreeEditorToolSettings.cs" />
+    <Compile Include="BehaviorTreeEditor\Events\BehaviorTreeEditorSettingsChangeEvent.cs" />
+    <Compile Include="BehaviorTreeEditor\Models\BehaviorTreeEditorModel.cs" />
+    <Compile Include="BehaviorTreeEditor\Models\IBehaviorTree.cs" />
+    <Compile Include="BehaviorTreeEditor\ViewModels\BehaviorTreeEditorViewModel.cs" />
+    <Compile Include="BehaviorTreeEditor\Views\BehaviorTreeEditorView.xaml.cs">
+      <DependentUpon>BehaviorTreeEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FeedbackEditor\FeedbackEditorModule.cs" />
+    <Compile Include="FeedbackEditor\FeedbackEditorToolSettings.cs" />
+    <Compile Include="FeedbackEditor\Events\FeedbackEditorSettingsChangeEvent.cs" />
+    <Compile Include="FeedbackEditor\Models\FeedbackEditorModel.cs" />
+    <Compile Include="FeedbackEditor\Models\IFeedback.cs" />
+    <Compile Include="FeedbackEditor\ViewModels\FeedbackEditorViewModel.cs" />
+    <Compile Include="FeedbackEditor\Views\FeedbackEditorView.xaml.cs">
+      <DependentUpon>FeedbackEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityCreator\Events\EntityCreatorSettingsChangeEvent.cs" />
+    <Compile Include="EntityCreator\Models\ActionType.cs" />
+    <Compile Include="EntityCreator\Models\ComponentType.cs" />
+    <Compile Include="EntityCreator\Models\EntityActionItem.cs" />
+    <Compile Include="EntityCreator\Models\EntityComponentItem.cs" />
+    <Compile Include="EntityCreator\Models\EntityItem.cs" />
+    <Compile Include="EntityCreator\Models\EntityStateItem.cs" />
+    <Compile Include="EntityCreator\Models\IEntityCreator.cs" />
+    <Compile Include="EntityCreator\Models\EntityCreatorModel.cs" />
+    <Compile Include="EntityCreator\EntityCreatorModule.cs" />
+    <Compile Include="EntityCreator\EntityCreatorToolSettings.cs" />
+    <Compile Include="EntityCreator\ViewModels\EntityCreatorViewModel.cs" />
+    <Compile Include="EntityCreator\Views\EntityCreatorView.xaml.cs">
+      <DependentUpon>EntityCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogEditor\Events\DialogEditorSettingsChangeEvent.cs" />
+    <Compile Include="DialogEditor\DialogEditorModule.cs" />
+    <Compile Include="DialogEditor\DialogEditorToolSettings.cs" />
+    <Compile Include="DialogEditor\Models\DialogEditorModel.cs" />
+    <Compile Include="DialogEditor\Models\IDialogEditor.cs" />
+    <Compile Include="DialogEditor\ViewModels\DialogEditorViewModel.cs" />
+    <Compile Include="DialogEditor\Views\DialogEditorView.xaml.cs">
+      <DependentUpon>DialogEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FightEditor\Events\FightEditorSettingsChangeEvent.cs" />
+    <Compile Include="FightEditor\Models\IFightEditor.cs" />
+    <Compile Include="FightEditor\Models\FightEditorModel.cs" />
+    <Compile Include="FightEditor\FightEditorModule.cs" />
+    <Compile Include="FightEditor\FightEditorToolSettings.cs" />
+    <Compile Include="FightEditor\ViewModels\FightEditorViewModel.cs" />
+    <Compile Include="FightEditor\Views\FightEditorView.xaml.cs">
+      <DependentUpon>FightEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternCreator\Events\PatternCreatorSettingsChangeEvent.cs" />
+    <Compile Include="PatternCreator\Models\IPatternCreator.cs" />
+    <Compile Include="PatternCreator\Models\PatternCreatorModel.cs" />
+    <Compile Include="PatternCreator\ViewModels\PatternCreatorViewModel.cs" />
+    <Compile Include="PatternCreator\Views\PatternCreatorView.xaml.cs">
+      <DependentUpon>PatternCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternCreator\PatternCreatorModule.cs" />
+    <Compile Include="PatternCreator\PatternCreatorToolSettings.cs" />
+    <Compile Include="TileEditor\Events\TileEditorSettingsChangeEvent.cs" />
+    <Compile Include="TileEditor\Models\ITileEditor.cs" />
+    <Compile Include="TileEditor\Models\TileEditorModel.cs" />
+    <Compile Include="TileEditor\TileEditorModule.cs" />
+    <Compile Include="TileEditor\ViewModels\TileEditorViewModel.cs" />
+    <Compile Include="TileEditor\Views\TileEditor.cs" />
+    <Compile Include="TileEditor\Views\TileEditorView.xaml.cs">
+      <DependentUpon>TileEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TileEditor\TileEditorToolSettings.cs" />
+    <Compile Include="Viewer\Commands\ToggleRatioCommand.cs" />
+    <Compile Include="Viewer\Events\ViewerSettingsChangeEvent.cs" />
+    <Compile Include="Viewer\Views\Player.cs" />
+    <Compile Include="Viewer\Views\Viewer.cs" />
+    <Compile Include="Viewer\Models\IViewer.cs" />
+    <Compile Include="Viewer\Models\ViewerModel.cs" />
+    <Compile Include="Viewer\ViewModels\ViewerViewModel.cs" />
+    <Compile Include="Viewer\ViewerModule.cs" />
+    <Compile Include="Logger\NLogService.cs" />
+    <Compile Include="ProgressBar\ProgressBar.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Splash\Behaviours\SplashBehaviour.cs" />
+    <Compile Include="Splash\Views\ISplashView.cs" />
+    <Compile Include="Splash\SplashModule.cs" />
+    <Compile Include="Splash\Views\SplashView.xaml.cs">
+      <DependentUpon>SplashView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Splash\ViewModels\SplashViewModel.cs" />
+    <Compile Include="StatusBar\StatusBar.cs" />
+    <Compile Include="Viewer\ViewerToolSettings.cs" />
+    <Compile Include="Viewer\Views\ViewerView.xaml.cs">
+      <DependentUpon>ViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorldEditor\Events\WorldEditorSettingsChangeEvent.cs" />
+    <Compile Include="WorldEditor\Models\GameItem.cs" />
+    <Compile Include="WorldEditor\Models\IWorldEditor.cs" />
+    <Compile Include="WorldEditor\Models\WorldEditorModel.cs" />
+    <Compile Include="WorldEditor\WorldEditorModule.cs" />
+    <Compile Include="WorldEditor\ViewModels\WorldEditorViewModel.cs" />
+    <Compile Include="WorldEditor\Views\WorldEditorView.xaml.cs">
+      <DependentUpon>WorldEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorldEditor\WorldEditorToolSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Magnum\Src\Magnum.Controls\Magnum.Controls.csproj">
+      <Project>{a0e3a3cd-8525-41c9-9001-a1ae526f4716}</Project>
+      <Name>Magnum.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Magnum\Src\Magnum.Core\Magnum.Core.csproj">
+      <Project>{d516b466-4449-48ee-872a-f540174cd4e4}</Project>
+      <Name>Magnum.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Magnum\Src\Magnum.IconLibrary\Magnum.IconLibrary.csproj">
+      <Project>{3eb2d30f-7d9c-46ed-ac71-f9137258695e}</Project>
+      <Name>Magnum.IconLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Magnum\Src\Magnum.Tools\Magnum.Tools.csproj">
+      <Project>{41cc6904-2900-46cb-a120-fa5859486e0d}</Project>
+      <Name>Magnum.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\357.Wrappers\357.Wrappers.csproj">
+      <Project>{2b0c9d90-2e50-4971-8688-659d638f5c84}</Project>
+      <Name>357.Wrappers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BehaviorTreeEditor\Views\BehaviorTreeEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FeedbackEditor\Views\FeedbackEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EntityCreator\Views\EntityCreatorItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EntityCreator\Views\EntityCreatorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DialogEditor\Views\DialogEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FightEditor\Views\FightEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PatternCreator\Views\PatternCreatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TileEditor\Views\TileEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Splash\Views\SplashView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Viewer\Views\ViewerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorldEditor\Views\WorldEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

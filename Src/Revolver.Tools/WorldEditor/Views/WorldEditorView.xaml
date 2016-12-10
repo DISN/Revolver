@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="Revolver.Tools.WorldEditor.Views.WorldEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Revolver.Tools.WorldEditor"
+             xmlns:Models="clr-namespace:Revolver.Tools.WorldEditor.Models"
+             xmlns:Controls="clr-namespace:Magnum.Controls.ModuleToolbar;assembly=Magnum.Controls"
+             xmlns:FilterableTreeView="clr-namespace:Magnum.Controls.FilterableTreeView;assembly=Magnum.Controls"
+             xmlns:dc="clr-namespace:DevComponents.WPF.Controls;assembly=DevComponents.WPF.Controls"
+             xmlns:behaviors="clr-namespace:Magnum.Controls.Behaviors;assembly=Magnum.Controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContextChanged="WorldEditorView_DataContextChanged"
+             Background="{DynamicResource MainWindowInnerBackgroundBrush}">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Magnum.Controls;component/Themes/Styles/Brushes.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </ResourceDictionary>
+  </UserControl.Resources>
+
+  <DockPanel>
+    <Controls:ModuleToolbar DockPanel.Dock="Top" Background="{DynamicResource ToolbarBackgroundBrush}"
+                            DataContext="{Binding}"/>
+
+    <!--Progress bar-->
+    <ProgressBar x:Name="ProgressBar" DockPanel.Dock="Top" Margin="0,-3,0,0" Height="2" Width="Auto" Visibility="{Binding Path=ProgressBar.ShowProgressBar, Converter={StaticResource ResourceKey=booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Maximum="{Binding Path=ProgressBar.ProgressMaximum, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Path=ProgressBar.ProgressValue, UpdateSourceTrigger=PropertyChanged}" />
+
+    <FilterableTreeView:FilterableTreeView x:Name="_TreeView"
+              ItemsSource="{Binding Games, Mode=OneWay}"
+              HorizontalContentAlignment="Stretch"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              VirtualizingStackPanel.IsVirtualizing="False"
+              Focusable="False"
+              IsTabStop="False">
+      <FilterableTreeView:FilterableTreeView.Background>
+        <ImageBrush ImageSource="{DynamicResource World_128x128}" AlignmentX="Center" AlignmentY="Bottom" Opacity="0.10" TileMode="None" Stretch="Uniform" />
+      </FilterableTreeView:FilterableTreeView.Background>
+      <i:Interaction.Behaviors>
+        <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding CurrentlySelectedItem, Mode=TwoWay}"/>
+      </i:Interaction.Behaviors>
+      <!--<FilterableTreeView:FilterableTreeView.ContextMenu>
+        <dc:RadialMenu HasDropShadow="True" IsTextSearchEnabled="True" UseCustomToolTipHandling="False">
+          <dc:RadialMenu.IconTemplate>
+            <DataTemplate>-->
+              <!-- Using FontAwesome as source for menu item icons. The font is an embedded resource of this project. -->
+      <!--<TextBlock Text="{Binding}" FontSize="17" Foreground="{DynamicResource TextBrush}" />-->
+      <!--</DataTemplate>
+          </dc:RadialMenu.IconTemplate>
+          <dc:RadialMenuItem Header="Camera" Icon="&#xf030;" ToolTip="Camera" />
+          <dc:RadialMenuItem Header="Picture" Icon="&#xf03e;" ToolTip="Picture" />
+          <dc:RadialMenuItem Header="Table" Icon="&#xf0ce;" ToolTip="Table" />
+          <dc:RadialMenuItem Header="List" Icon="&#xf00b;" ToolTip="List">
+            <dc:RadialMenuItem Index="2" Header="Ordered" Icon="&#xf0cb;" ToolTip="OrderedList" />
+            <dc:RadialMenuItem Index="3" Header="Unordered" Icon="&#xf0ca;" ToolTip="Unordered List" />
+          </dc:RadialMenuItem>
+          <dc:RadialMenuItem MinimumSegmentCount="4" Header="Alignment" Icon="&#xf037;" ToolTip="Alignment">
+            <dc:RadialMenuItem Header="Center" Icon="&#xf037;" ToolTip="Align Center" />
+            <dc:RadialMenuItem Header="Left" Icon="&#xf036;" ToolTip="Align Left" />
+            <dc:RadialMenuItem Header="Right" Icon="&#xf038;" ToolTip="Align Right" />
+            <dc:RadialMenuItem Header="Justify" Icon="&#xf039;" ToolTip="Align Justify" />
+          </dc:RadialMenuItem>
+          <dc:RadialMenuItem Header="Undo" Icon="&#xf0e2;" ToolTip="Undo" />
+          <dc:RadialMenuItem Header="Tag" Icon="&#xf02b;" ToolTip="Tag">
+            <dc:RadialMenuItem Header="To Do" Icon="&#xf046;" ToolTip="To Do" ClickAction="CloseSubmenu" />
+            <dc:RadialMenuItem Header="Favorite" Icon="&#xf005;" ToolTip="Favorite" ClickAction="CloseSubmenu" />
+            <dc:RadialMenuItem Header="Critical" Icon="&#xf12a;" ToolTip="Critical" ClickAction="CloseSubmenu" />
+            <dc:RadialMenuItem Header="Question" Icon="&#xf128;" ToolTip="Question"  ClickAction="CloseSubmenu"/>
+            <dc:RadialMenuItem Header="Info" Icon="&#xf179;" ToolTip="Info" ClickAction="CloseSubmenu"/>
+            <dc:RadialMenuItem Header="Phone Number" Icon="&#xf095;" ToolTip="Phone Number" ClickAction="CloseSubmenu"/>
+          </dc:RadialMenuItem>
+          <dc:RadialMenuItem Header="Draw" Icon="&#xf040;" ToolTip="Draw" />
+        </dc:RadialMenu>
+      </FilterableTreeView:FilterableTreeView.ContextMenu>-->
+    </FilterableTreeView:FilterableTreeView>
+  </DockPanel>
+</UserControl>
